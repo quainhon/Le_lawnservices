@@ -2,10 +2,12 @@ import { useMemo, useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 import { CustomerRow } from "@/components/CustomerRow";
-import { useRouteState } from "@/hooks/useRouteState";
+import { useAppState } from "@/state/AppContext";
+import { selectCustomers } from "@/domain/selectors";
 
 export default function CustomersScreen() {
-  const { customers } = useRouteState();
+  const state = useAppState();
+  const customers = selectCustomers(state);
   const [query, setQuery] = useState("");
   const filtered = useMemo(() => {
     const term = query.trim().toLowerCase();

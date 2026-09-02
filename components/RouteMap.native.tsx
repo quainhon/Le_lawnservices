@@ -1,15 +1,16 @@
 import { router } from "expo-router";
 import MapView, { Callout, Marker } from "react-native-maps";
 import { StyleSheet, Text, View } from "react-native";
-import { Customer } from "@/types/customer";
+import { Customer, ServiceJob } from "@/domain/types";
 
-export default function RouteMap({ customers, jobs }: { customers: Customer[]; jobs: Record<string, { completed: boolean }> }) {
+export default function RouteMap({ customers, jobs }: { customers: Customer[]; jobs: ServiceJob[] }) {
   const validCustomers = customers.filter(hasCoordinates);
+  const isCompleted = (customerId: string) => jobs.some((job) => job.customer_id === customerId && job.completed_at);
   return (
     <MapView style={styles.map} initialRegion={getRegion(validCustomers)}>
       {validCustomers.map((customer) => (
         <Marker key={customer.id} coordinate={{ latitude: customer.latitude, longitude: customer.longitude }}>
-          <View style={[styles.marker, jobs[customer.id]?.completed && styles.completedMarker]}><Text style={styles.markerText}>{customer.route_order}</Text></View>
+          <View style={[styles.marker, isCompleted(customer.id) ? styles.completedMarker : styles.incompleteMarker]}><Text style={styles.markerText}>{customer.route_order}</Text></View>
           <Callout onPress={() => router.push(`/customer/${customer.id}`)}>
             <View style={styles.callout}>
               <Text style={styles.route}>#{customer.route_order}</Text>
@@ -43,8 +44,9 @@ function formatFrequency(customer: Customer) {
 
 const styles = StyleSheet.create({
   map: { flex: 1 },
-  marker: { minWidth: 34, height: 34, paddingHorizontal: 6, borderRadius: 17, backgroundColor: "#1f6b45", borderWidth: 2, borderColor: "#fff", alignItems: "center", justifyContent: "center" },
-  completedMarker: { backgroundColor: "#65736b" },
+  marker: { minWidth: 34, height: 34, paddingHorizontal: 6, borderRadius: 17, borderWidth: 2, borderColor: "#fff", alignItems: "center", justifyContent: "center" },
+  incompleteMarker: { backgroundColor: "#d6a800" },
+  completedMarker: { backgroundColor: "#1f6b45" },
   markerText: { color: "#fff", fontWeight: "800" },
   callout: { width: 220, padding: 4 },
   route: { color: "#1f6b45", fontWeight: "800", fontSize: 16 },

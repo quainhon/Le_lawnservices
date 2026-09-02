@@ -1,16 +1,19 @@
 import { useMemo, useState } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import RouteMap from "@/components/RouteMap";
-import { useRouteState } from "@/hooks/useRouteState";
-import { Customer } from "@/types/customer";
+import { useAppContext } from "@/state/AppContext";
+import { selectActiveJobs, selectActiveWeek, selectWeeklyCustomers } from "@/domain/selectors";
 
 type Filter = "remaining" | "all" | "completed";
 
 export default function MapScreen() {
-  const { cycle, weeklyCustomers, jobs, loaded } = useRouteState();
+  const { state, loaded } = useAppContext();
+  const cycle = selectActiveWeek(state).cycle;
+  const weeklyCustomers = selectWeeklyCustomers(state);
+  const jobs = selectActiveJobs(state);
   const [filter, setFilter] = useState<Filter>("remaining");
   const visible = useMemo(() => weeklyCustomers.filter((customer) => {
-    const completed = jobs[customer.id]?.completed === true;
+    const completed = jobs.some((job) => job.customer_id === customer.id && job.completed_at);
     return filter === "all" || (filter === "completed" ? completed : !completed);
   }), [filter, jobs, weeklyCustomers]);
 

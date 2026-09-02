@@ -7,6 +7,7 @@ export default function TabLayout() {
       <Tabs.Screen name="index" options={{ title: "Route", tabBarIcon: () => <Text>R</Text> }} />
       <Tabs.Screen name="map" options={{ title: "Map", tabBarIcon: () => <Text>M</Text> }} />
       <Tabs.Screen name="customers" options={{ title: "Customers", tabBarIcon: () => <Text>C</Text> }} />
+      <Tabs.Screen name="billing" options={{ title: "Billing", tabBarIcon: () => <Text>$</Text> }} />
       <Tabs.Screen name="settings" options={{ title: "Settings", tabBarIcon: () => <Text>S</Text> }} />
     </Tabs>
   );

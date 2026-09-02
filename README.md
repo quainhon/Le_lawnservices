@@ -18,9 +18,8 @@ with Expo Go.
 The app imports customer records from [`data/customers.json`](./data/customers.json).
 The file contains the 50 Marietta prototype properties, including route order,
 coordinates, and synthetic weekly/biweekly test scheduling. The expected fields
-are defined in [`types/customer.ts`](./types/customer.ts). Replace this file
-with the business's real JSON later; preserve the same top-level `customers`
-array or update the import in `hooks/useRouteState.tsx`.
+are defined in [`domain/types.ts`](./domain/types.ts). Replace this file with
+the business's real JSON later; preserve the same top-level `customers` array.
 
 ## Route behavior
 
@@ -37,9 +36,8 @@ app/
   (tabs)/          Route, Map, Customers, Settings
 components/        Reusable customer row
 data/              Replaceable customer JSON
-hooks/             Local persisted route state
-lib/               Route filtering and ordering
-types/             Customer and weekly-job types
+domain/            Customer, service week/job models and selectors
+state/             Context, reducer, and persistence
 ```
 
 The Map tab uses `react-native-maps` on native builds with permanent route-order

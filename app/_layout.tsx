@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
-import { RouteStateProvider } from "@/hooks/useRouteState";
+import { AppProvider } from "@/state/AppContext";
 
 export default function RootLayout() {
-  return <RouteStateProvider><Stack screenOptions={{ headerShown: false }} /></RouteStateProvider>;
+  return <AppProvider><Stack screenOptions={{ headerShown: false }} /></AppProvider>;
 }
