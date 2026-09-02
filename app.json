@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "Landscaping",
+    "slug": "le-lawnservices",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "landscaping",
+    "userInterfaceStyle": "light",
+    "plugins": ["expo-router"],
+    "ios": {
+      "supportsTablet": true
+    }
+  }
+}

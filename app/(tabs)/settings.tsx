@@ -1,0 +1,8 @@
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import { useRouteState } from "@/hooks/useRouteState";
+
+export default function SettingsScreen() {
+  const { cycle, setCycle, resetCurrentCycle } = useRouteState();
+  return <View style={styles.screen}><Text style={styles.title}>Settings</Text><Text style={styles.label}>Current cycle</Text><View style={styles.row}>{(["A", "B"] as const).map((option) => <Pressable key={option} onPress={() => setCycle(option)} style={[styles.cycle, cycle === option && styles.selected]}><Text style={cycle === option ? styles.selectedText : styles.cycleText}>Week {option}</Text></Pressable>)}</View><Pressable onPress={() => Alert.alert("Reset completion data?", `This will clear Week ${cycle}.`, [{ text: "Cancel", style: "cancel" }, { text: "Reset", style: "destructive", onPress: resetCurrentCycle }])} style={styles.reset}><Text style={styles.resetText}>Reset current week's completion data</Text></Pressable></View>;
+}
+const styles = StyleSheet.create({ screen: { flex: 1, backgroundColor: "#f5f7f5", padding: 16, paddingTop: 58 }, title: { fontSize: 24, fontWeight: "800", color: "#17201b", marginBottom: 30 }, label: { fontSize: 14, color: "#68756d", marginBottom: 8 }, row: { flexDirection: "row", gap: 8 }, cycle: { flex: 1, padding: 14, borderRadius: 8, borderWidth: 1, borderColor: "#b8c7bc", alignItems: "center" }, selected: { backgroundColor: "#1f6b45", borderColor: "#1f6b45" }, cycleText: { color: "#1f6b45", fontWeight: "700" }, selectedText: { color: "#fff", fontWeight: "700" }, reset: { marginTop: 36, backgroundColor: "#fff", borderWidth: 1, borderColor: "#d1dbd4", borderRadius: 8, padding: 16 }, resetText: { color: "#9b2c2c", fontWeight: "700", textAlign: "center" } });
